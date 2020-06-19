@@ -30,27 +30,41 @@ class _HourlyWeatherState extends State<HourlyWeather> {
     _setHourlyWeatherData(this._hourlyDataBlock);
 
     return Container(
-      height: 50,
+      height: 200,
       child: ListView.builder(
-//        shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(8),
         itemCount: _hourlyDataBlock.data.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
+            width: 100,
             padding: const EdgeInsets.all(5),
             child: Column(
               children: <Widget>[
-                Text(getTimeFromTimestamp(_hourlyDataBlock.data[index].time)),
+                Text(
+                  getTimeFromTimestamp(_hourlyDataBlock.data[index].time),
+                  style: TextStyle(fontSize: 20),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Image(
                       image: AssetImage(getweatherIconLocation(
                           _hourlyDataBlock.data[index].icon)),
+                    ),
+                    Text(
+                      _hourlyDataBlock.data[index].temperature
+                          .toInt()
+                          .toString(),
+                      style: TextStyle(fontSize: 25),
                     )
                   ],
-                )
+                ),
+                Text(
+                  _hourlyDataBlock.data[index].summary,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
               ],
             ),
           );

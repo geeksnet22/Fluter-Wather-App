@@ -39,10 +39,10 @@ class _CurrentWeatherState extends State<CurrentWeather> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(this._locationName, style: TextStyle(fontSize: 15)),
+            Text(this._locationName, style: TextStyle(fontSize: 20)),
             Text(
               getDatetimeFromTimestamp(_currentlyDataPoint.time),
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,13 +52,13 @@ class _CurrentWeatherState extends State<CurrentWeather> {
                         getweatherIconLocation(_currentlyDataPoint.icon))),
                 Text(
                   _currentlyDataPoint.temperature.toInt().toString() + " C",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(fontSize: 25),
                 )
               ],
             ),
             Text(
               _currentlyDataPoint.summary,
-              style: TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 20),
             )
           ],
         ));
