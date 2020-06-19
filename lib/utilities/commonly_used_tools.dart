@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 String getweatherIconLocation(String iconDesc) {
   String weatherIconLocation = "assets/images/";
   switch (iconDesc) {
@@ -33,4 +35,10 @@ String getweatherIconLocation(String iconDesc) {
 
 String getDatetimeFromTimestamp(int timestamp) {
   return new DateTime.fromMillisecondsSinceEpoch(timestamp*1000).toString();
+}
+
+String getTimeFromTimestamp(int timestamp) {
+  TimeOfDay timeOfDay = TimeOfDay.fromDateTime(new DateTime.fromMillisecondsSinceEpoch(timestamp*1000));
+  return (timeOfDay.hour.toString().length < 2 ?  "0" + timeOfDay.hour.toString() : timeOfDay.hour.toString())
+      + ":" + timeOfDay.minute.toString();
 }

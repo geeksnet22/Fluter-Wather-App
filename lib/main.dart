@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_weather_app/types/weather_data_types.dart';
 import 'package:the_weather_app/widgets/current_weather.dart';
+import 'package:the_weather_app/widgets/hourly_weather.dart';
 import 'utilities/extract_data.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Weaher app',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -97,9 +97,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   builder:
                       (BuildContext context, AsyncSnapshot<List> snapshot) {
                     if (snapshot.hasData) {
-                      return CurrentWeather(
-                        locationName: snapshot.data.elementAt(0),
-                        weatherData: snapshot.data.elementAt(1),
+                      return Column(
+                        children: <Widget>[
+                          CurrentWeather(
+                            locationName: snapshot.data.elementAt(0),
+                            currentlyDataPoint: (snapshot.data.elementAt(1) as Forecast).currently,
+                          ),
+                          HourlyWeather(
+                            hourlyDataBlock: (snapshot.data.elementAt(1) as Forecast).hourly,
+                          )
+                        ],
                       );
                     }
                     return Text('');

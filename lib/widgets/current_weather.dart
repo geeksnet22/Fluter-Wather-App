@@ -4,35 +4,35 @@ import 'package:the_weather_app/utilities/commonly_used_tools.dart';
 
 class CurrentWeather extends StatefulWidget {
   final String locationName;
-  final Forecast weatherData;
+  final CurrentlyDataPoint currentlyDataPoint;
 
-  const CurrentWeather({Key key, this.locationName, this.weatherData})
+  const CurrentWeather({Key key, this.locationName, this.currentlyDataPoint})
       : super(key: key);
 
   @override
   _CurrentWeatherState createState() =>
-      _CurrentWeatherState(this.locationName, this.weatherData);
+      _CurrentWeatherState(this.locationName, this.currentlyDataPoint);
 }
 
 class _CurrentWeatherState extends State<CurrentWeather> {
   String _locationName;
-  Forecast _weatherData;
+  CurrentlyDataPoint _currentlyDataPoint;
 
-  _CurrentWeatherState(String locationName, Forecast weatherData) {
+  _CurrentWeatherState(String locationName, CurrentlyDataPoint currentlyDataPoint) {
     this._locationName = locationName;
-    this._weatherData = weatherData;
+    this._currentlyDataPoint = currentlyDataPoint;
   }
 
-  void _setCurrentWeatherData(String locationName, Forecast weatherData) {
+  void _setCurrentWeatherData(String locationName, CurrentlyDataPoint currentlyDataPoint) {
     setState(() {
       this._locationName = locationName;
-      this._weatherData = weatherData;
+      this._currentlyDataPoint = currentlyDataPoint;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    _setCurrentWeatherData(_locationName, _weatherData);
+    _setCurrentWeatherData(_locationName, _currentlyDataPoint);
 
     return Container(
         padding: const EdgeInsets.all(20),
@@ -41,7 +41,7 @@ class _CurrentWeatherState extends State<CurrentWeather> {
           children: <Widget>[
             Text(this._locationName, style: TextStyle(fontSize: 15)),
             Text(
-              getDatetimeFromTimestamp(_weatherData.currently.time),
+              getDatetimeFromTimestamp(_currentlyDataPoint.time),
               style: TextStyle(fontSize: 15),
             ),
             Row(
@@ -49,15 +49,15 @@ class _CurrentWeatherState extends State<CurrentWeather> {
               children: <Widget>[
                 Image(
                     image: AssetImage(
-                        getweatherIconLocation(_weatherData.currently.icon))),
+                        getweatherIconLocation(_currentlyDataPoint.icon))),
                 Text(
-                  _weatherData.currently.temperature.toInt().toString() + " C",
+                  _currentlyDataPoint.temperature.toInt().toString() + " C",
                   style: TextStyle(fontSize: 20),
                 )
               ],
             ),
             Text(
-              _weatherData.currently.summary,
+              _currentlyDataPoint.summary,
               style: TextStyle(fontSize: 15),
             )
           ],
