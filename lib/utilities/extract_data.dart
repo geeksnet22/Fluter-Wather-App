@@ -8,7 +8,7 @@ Future<List> getForecast() async {
   var darksky = new DarkSkyWeather(API_KEY, units: Units.SI);
 
   var addresses = await Geocoder.local
-      .findAddressesFromQuery("Saskatoon, Canada");
+      .findAddressesFromQuery("Khanna, India");
   String location = addresses.first.addressLine.split(',').first;
   Forecast forecast = await darksky.getForecast(
       addresses.first.coordinates.latitude,

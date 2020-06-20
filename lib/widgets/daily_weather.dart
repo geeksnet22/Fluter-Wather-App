@@ -37,7 +37,7 @@ class _DailyWeatherState extends State<DailyWeather> {
         children: <Widget>[
           Text(
             "Daily",
-            style: TextStyle(fontSize: 25, color: Colors.white),
+            style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           Container(
             decoration: new BoxDecoration(
@@ -51,40 +51,35 @@ class _DailyWeatherState extends State<DailyWeather> {
               itemCount: _dailyDataBlock.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  width: 150,
-                  padding: const EdgeInsets.all(5),
+                  width: 115,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        getDayFromTimestamp(_dailyDataBlock.data[index].time) ==
-                                getDayFromTimestamp(
-                                    new DateTime.now().millisecondsSinceEpoch ~/
-                                        1000)
+                        index == 0
                             ? "Today"
                             : getDayFromTimestamp(
                                 _dailyDataBlock.data[index].time),
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image(
-                            image: AssetImage(getweatherIconLocation(
-                                _dailyDataBlock.data[index].icon)),
-                          ),
-                          Text(
-                            _dailyDataBlock.data[index].temperatureMin
-                                    .toInt()
-                                    .toString() +
-                                " C - " +
-                                _dailyDataBlock.data[index].temperatureMax
-                                    .toInt()
-                                    .toString() +
-                                " C",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
-                          )
-                        ],
+                      SizedBox(
+                        height: 10,
                       ),
+                      Image(
+                        image: AssetImage(getweatherIconLocation(
+                            _dailyDataBlock.data[index].icon)),
+                      ),
+                      Text(
+                        _dailyDataBlock.data[index].temperatureMin
+                                .toInt()
+                                .toString() +
+                            " C - " +
+                            _dailyDataBlock.data[index].temperatureMax
+                                .toInt()
+                                .toString() +
+                            " C",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      )
                     ],
                   ),
                 );

@@ -39,7 +39,7 @@ class _HourlyWeatherState extends State<HourlyWeather> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Hourly", style: TextStyle(fontSize: 25, color: Colors.white)),
+          Text("Hourly", style: TextStyle(fontSize: 20, color: Colors.white)),
           Container(
             decoration: new BoxDecoration(
                 color: Colors.lightBlue[300],
@@ -47,18 +47,22 @@ class _HourlyWeatherState extends State<HourlyWeather> {
             margin: const EdgeInsets.only(top: 10),
             height: 150,
             child: ListView.builder(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.all(8),
               itemCount: _hourlyDataBlock.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                  width: 150,
-                  padding: const EdgeInsets.all(5),
+                  width: 140,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         getTimeFromTimestamp(_hourlyDataBlock.data[index].time),
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -67,25 +71,32 @@ class _HourlyWeatherState extends State<HourlyWeather> {
                             image: AssetImage(getweatherIconLocation(
                                 _hourlyDataBlock.data[index].icon)),
                           ),
+                          SizedBox(
+                            width: 10,
+                          ),
                           Text(
                             _hourlyDataBlock.data[index].temperature
-                                .toInt()
-                                .toString() + " C",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
+                                    .toInt()
+                                    .toString() +
+                                " C",
+                            style: TextStyle(fontSize: 20, color: Colors.white),
                           )
                         ],
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Text(
                         _hourlyDataBlock.data[index].summary,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                        style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ],
                   ),
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
