@@ -30,14 +30,14 @@ class _HourlyWeatherState extends State<HourlyWeather> {
     _setHourlyWeatherData(this._hourlyDataBlock);
 
     return Container(
-      height: 200,
+      height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(8),
         itemCount: _hourlyDataBlock.data.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            width: 100,
+            width: 150,
             padding: const EdgeInsets.all(5),
             child: Column(
               children: <Widget>[

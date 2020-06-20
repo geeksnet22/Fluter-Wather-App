@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:the_weather_app/widgets/current_weather.dart';
+import 'package:the_weather_app/widgets/daily_weather.dart';
 import 'package:the_weather_app/widgets/hourly_weather.dart';
 import 'utilities/extract_data.dart';
 import 'package:darksky_weather/darksky_weather_io.dart';
@@ -105,6 +106,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           HourlyWeather(
                             hourlyDataBlock: (snapshot.data.elementAt(1) as Forecast).hourly,
+                          ),
+                          DailyWeather(
+                            dailyDataBlock: (snapshot.data.elementAt(1) as Forecast).daily,
                           )
                         ],
                       );
