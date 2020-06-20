@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:the_weather_app/utilities/commonly_used_tools.dart';
 import 'package:the_weather_app/widgets/current_weather.dart';
 import 'package:the_weather_app/widgets/daily_weather.dart';
 import 'package:the_weather_app/widgets/hourly_weather.dart';
@@ -8,21 +9,11 @@ import 'package:darksky_weather/darksky_weather_io.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Weaher app',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Home'),
@@ -32,15 +23,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -60,63 +42,193 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Column(
-            // Column is also a layout widget. It takes a list of children and
-            // arranges them vertically. By default, it sizes itself to fit its
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-            // to see the wireframe for each widget.
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-//          mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              FutureBuilder<List>(
-                  future: _weatherData,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<List> snapshot) {
-                    if (snapshot.hasData) {
-                      return Column(
-                        children: <Widget>[
-                          CurrentWeather(
-                            locationName: snapshot.data.elementAt(0),
-                            currentlyDataPoint: (snapshot.data.elementAt(1) as Forecast).currently,
-                          ),
-                          HourlyWeather(
-                            hourlyDataBlock: (snapshot.data.elementAt(1) as Forecast).hourly,
-                          ),
-                          DailyWeather(
-                            dailyDataBlock: (snapshot.data.elementAt(1) as Forecast).daily,
-                          )
-                        ],
-                      );
-                    }
-                    return Text('');
-                  })
-            ],
-          ),
+        body: ListView(
+          children: <Widget>[
+            Container(
+              color: Colors.lightBlue,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  FutureBuilder<List>(
+                      future: _weatherData,
+                      builder:
+                          (BuildContext context, AsyncSnapshot<List> snapshot) {
+                        if (snapshot.hasData) {
+                          return Column(
+                            children: <Widget>[
+                              CurrentWeather(
+                                locationName: snapshot.data.elementAt(0),
+                                currentlyDataPoint:
+                                    (snapshot.data.elementAt(1) as Forecast)
+                                        .currently,
+                              ),
+                              HourlyWeather(
+                                hourlyDataBlock:
+                                    (snapshot.data.elementAt(1) as Forecast)
+                                        .hourly,
+                              ),
+                              DailyWeather(
+                                dailyDataBlock:
+                                    (snapshot.data.elementAt(1) as Forecast)
+                                        .daily,
+                              ),
+                              Container(
+                                margin: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Details",
+                                      style: TextStyle(
+                                          fontSize: 25, color: Colors.white),
+                                    ),
+                                    Container(
+                                        decoration: new BoxDecoration(
+                                            color: Colors.lightBlue[300],
+                                            borderRadius: new BorderRadius.all(
+                                                const Radius.circular(10))),
+                                        margin: const EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.all(8),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text(
+                                                  "Sunrise",
+                                                  style: TextStyle(
+                                                      fontSize: 25,
+                                                      color: Colors.white),
+                                                ),
+                                                Text(
+                                                    getTimeFromTimestamp((snapshot
+                                                                    .data
+                                                                    .elementAt(
+                                                                        1)
+                                                                as Forecast)
+                                                            .daily
+                                                            .data
+                                                            .first
+                                                            .sunriseTime)
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white))
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Sunset",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white)),
+                                                Text(
+                                                    getTimeFromTimestamp(
+                                                        (snapshot.data
+                                                                    .elementAt(
+                                                                        1)
+                                                                as Forecast)
+                                                            .daily
+                                                            .data
+                                                            .first
+                                                            .sunsetTime),
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white))
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Humidity",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white)),
+                                                Text(
+                                                    (((snapshot.data.elementAt(1)
+                                                                            as Forecast)
+                                                                        .currently
+                                                                        .humidity *
+                                                                    100)
+                                                                .toInt())
+                                                            .toString() +
+                                                        " %",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white))
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Windspeed",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white)),
+                                                Text(
+                                                    (((snapshot.data.elementAt(
+                                                                            1)
+                                                                        as Forecast)
+                                                                    .currently
+                                                                    .windSpeed) *
+                                                                3.6)
+                                                            .toInt()
+                                                            .toString() +
+                                                        " km/h",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white))
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Text("Visibility",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white)),
+                                                Text(
+                                                    (snapshot.data.elementAt(1)
+                                                                as Forecast)
+                                                            .currently
+                                                            .visibility
+                                                            .toInt()
+                                                            .toString() +
+                                                        " Kms",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        color: Colors.white))
+                                              ],
+                                            )
+                                          ],
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        }
+                        return Text('');
+                      })
+                ],
+              ),
+            )
+          ],
         ) // This trailing comma makes auto-formatting nicer for build methods.
         );
   }

@@ -1,5 +1,6 @@
 import 'package:darksky_weather/darksky_weather_io.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:the_weather_app/utilities/commonly_used_tools.dart';
 
 class HourlyWeather extends StatefulWidget {
@@ -29,46 +30,63 @@ class _HourlyWeatherState extends State<HourlyWeather> {
   Widget build(BuildContext context) {
     _setHourlyWeatherData(this._hourlyDataBlock);
 
+    if (_hourlyDataBlock.data.length == 49) {
+      _hourlyDataBlock.data.removeAt(0);
+    }
+
     return Container(
-      height: 150,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.all(8),
-        itemCount: _hourlyDataBlock.data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            width: 150,
-            padding: const EdgeInsets.all(5),
-            child: Column(
-              children: <Widget>[
-                Text(
-                  getTimeFromTimestamp(_hourlyDataBlock.data[index].time),
-                  style: TextStyle(fontSize: 20),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image(
-                      image: AssetImage(getweatherIconLocation(
-                          _hourlyDataBlock.data[index].icon)),
-                    ),
-                    Text(
-                      _hourlyDataBlock.data[index].temperature
-                          .toInt()
-                          .toString(),
-                      style: TextStyle(fontSize: 25),
-                    )
-                  ],
-                ),
-                Text(
-                  _hourlyDataBlock.data[index].summary,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Hourly", style: TextStyle(fontSize: 25, color: Colors.white)),
+          Container(
+            decoration: new BoxDecoration(
+                color: Colors.lightBlue[300],
+                borderRadius: new BorderRadius.all(const Radius.circular(10))),
+            margin: const EdgeInsets.only(top: 10),
+            height: 150,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.all(8),
+              itemCount: _hourlyDataBlock.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  width: 150,
+                  padding: const EdgeInsets.all(5),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        getTimeFromTimestamp(_hourlyDataBlock.data[index].time),
+                        style: TextStyle(fontSize: 25, color: Colors.white),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Image(
+                            image: AssetImage(getweatherIconLocation(
+                                _hourlyDataBlock.data[index].icon)),
+                          ),
+                          Text(
+                            _hourlyDataBlock.data[index].temperature
+                                .toInt()
+                                .toString() + " C",
+                            style: TextStyle(fontSize: 25, color: Colors.white),
+                          )
+                        ],
+                      ),
+                      Text(
+                        _hourlyDataBlock.data[index].summary,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 25, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
+          )
+        ],
       ),
     );
   }

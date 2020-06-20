@@ -35,21 +35,16 @@ String getweatherIconLocation(String iconDesc) {
 }
 
 String getDatetimeFromTimestamp(int timestamp) {
-  return DateFormat("yyyy-MM-dd hh:mm:ss a").format(new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000)).toString();
+  return DateFormat("yyyy-MM-dd hh:mm:ss a")
+      .format(new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
 }
 
 String getTimeFromTimestamp(int timestamp) {
-  TimeOfDay timeOfDay = TimeOfDay.fromDateTime(
-      new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
-  return (timeOfDay.hour.toString().length < 2
-          ? "0" + timeOfDay.hour.toString()
-          : timeOfDay.hour.toString()) +
-      ":" +
-      timeOfDay.minute.toString();
+  return DateFormat("hh:mm a")
+      .format(new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
 }
 
 String getDayFromTimestamp(int timestamp) {
   return DateFormat('EEEE')
-      .format(new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000))
-      .toString();
+      .format(new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000));
 }
